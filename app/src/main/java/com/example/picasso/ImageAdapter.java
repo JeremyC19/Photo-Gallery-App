@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 import android.content.Intent;
-
+import org.apache.log4j.Logger;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
+    private static final Logger log = Logger.getLogger(ImageAdapter.class);
     private Context context;
     private List<String> urls;
 
@@ -30,7 +31,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        Picasso.with(context).load(urls.get(position)).into(holder.imageView);
+        try {
+            Picasso.with(context).load(urls.get(position)).into(holder.imageView);
+        } catch (Exception e) {
+            log.error("Error occurred in onBindViewHolder: ", e);
+        }
     }
 
     @Override
@@ -55,5 +60,4 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             });
         }
     }
-
 }
